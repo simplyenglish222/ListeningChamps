@@ -1,0 +1,666 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#111b27">
+<title>Interactive Listening Practice — Elon Musk Interview</title>
+<style>
+:root{
+ --ink:#14202b;--muted:#65717c;--paper:#f2f5f7;--card:#fff;
+ --navy:#111b27;--blue:#2c6e9f;--blue-soft:#e8f2f8;
+ --gold:#d68b2b;--gold-soft:#fff4e4;--green:#23805c;
+ --green-soft:#eaf7f1;--red:#b6403d;--red-soft:#fff0ef;
+ --line:#d9e1e6;--shadow:0 14px 38px rgba(17,27,39,.11);
+ --serif:"Iowan Old Style","Palatino Linotype","Book Antiqua",Palatino,Georgia,"Times New Roman",serif;
+ --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased}
+button,input,select{font-size:16px}
+button,label,a,select{-webkit-tap-highlight-color:rgba(0,0,0,.08);touch-action:manipulation}
+.hero{background:radial-gradient(circle at 85% 20%,rgba(62,130,182,.32),transparent 30%),linear-gradient(135deg,#0d1621,#172c3e 60%,#10202e);color:#fff}
+.hero-inner{width:min(1200px,100%);margin:auto;padding:clamp(34px,7vw,74px) max(18px,env(safe-area-inset-right)) clamp(38px,7vw,76px) max(18px,env(safe-area-inset-left))}
+.eyebrow{font-size:.78rem;font-weight:950;letter-spacing:.13em;color:#a9d3ee;margin-bottom:10px}
+.hero h1{font-family:var(--serif);font-size:clamp(2.7rem,8vw,6.2rem);line-height:.93;letter-spacing:-.04em;margin:0;max-width:980px;text-wrap:balance}
+.hero p{font-family:var(--serif);max-width:800px;font-size:clamp(1.05rem,3.2vw,1.35rem);line-height:1.55;color:#d9e6ee;margin:17px 0 0}
+.hero-meta{display:flex;gap:9px;flex-wrap:wrap;margin-top:19px}
+.hero-meta span{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:999px;padding:8px 11px;font-size:.81rem;font-weight:800}
+.wrap{width:min(1320px,100%);margin:auto;padding:0 max(14px,env(safe-area-inset-right)) calc(70px + env(safe-area-inset-bottom)) max(14px,env(safe-area-inset-left))}
+.toolbar{position:-webkit-sticky;position:sticky;top:0;z-index:40;margin:0 -14px 22px;padding:10px 14px;display:flex;gap:8px;overflow-x:auto;-webkit-overflow-scrolling:touch;background:rgba(242,245,247,.95);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-bottom:1px solid rgba(0,0,0,.07)}
+.toolbar a{white-space:nowrap;text-decoration:none;color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:999px;padding:9px 12px;font-weight:850;font-size:.82rem}
+.intro-card{background:#fff;border-radius:22px;padding:20px;box-shadow:var(--shadow);margin:25px 0}
+.intro-card h2{font-family:var(--serif);font-size:1.65rem;margin:0 0 8px}
+.intro-card p{font-family:var(--serif);font-size:1.03rem;line-height:1.62;margin:.55rem 0;color:#394752}
+.segment{margin:38px 0 55px;scroll-margin-top:80px}
+.segment-heading{display:flex;gap:15px;align-items:flex-start;margin-bottom:15px}
+.segment-number{width:44px;height:44px;flex:0 0 44px;border-radius:50%;display:grid;place-items:center;background:var(--navy);color:#fff;font-weight:950}
+.segment-heading h2{font-family:var(--serif);font-size:clamp(1.8rem,5vw,2.65rem);line-height:1.06;margin:0}
+.segment-heading p{margin:7px 0 0;color:var(--muted);font-weight:750}
+.collocation-panel{background:linear-gradient(135deg,#fff8ed,#fff);border:1px solid #eed7b7;border-radius:20px;padding:18px;box-shadow:var(--shadow);margin-bottom:15px}
+.collocation-panel h3{font-family:var(--serif);font-size:1.35rem;margin:0 0 4px}
+.collocation-panel>p{color:var(--muted);margin:0 0 13px}
+.collocation-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.collocation{background:#fff;border:1px solid #eddfca;border-radius:13px;padding:10px 11px}
+.collocation strong{display:block;font-family:var(--serif);font-size:1rem;line-height:1.3}
+.collocation span{display:block;color:#7a5530;font-size:.84rem;line-height:1.35;margin-top:4px}
+.instruction{background:var(--blue-soft);border-left:5px solid var(--blue);border-radius:14px;padding:13px 15px;margin:0 0 15px;font-family:var(--serif);font-weight:750;line-height:1.5}
+.segment-grid{display:grid;grid-template-columns:minmax(390px,.84fr) minmax(560px,1.16fr);gap:18px;align-items:start}
+.questions-card{grid-column:1;background:#fff;border-radius:20px;padding:18px;box-shadow:var(--shadow)}
+.video-column{grid-column:2;position:-webkit-sticky;position:sticky;top:77px}
+.video-card{background:var(--navy);border-radius:20px;padding:12px;box-shadow:var(--shadow)}
+.video-frame{position:relative;width:100%;aspect-ratio:16/9;background:#05090d;border-radius:13px;overflow:hidden}
+.youtube-player,.youtube-player iframe{width:100%!important;height:100%!important}
+.listen-btn{width:100%;border:0;border-radius:13px;padding:14px 16px;margin-top:11px;background:linear-gradient(135deg,var(--gold),#efad4a);color:#21170b;font-weight:950;cursor:pointer}
+.listen-btn:disabled{opacity:.55;cursor:wait}
+.video-note{color:#cbd7df;font-size:.79rem;line-height:1.45;margin:9px 3px 1px}
+.task-block{border-top:2px solid var(--line);padding-top:17px;margin-top:20px}
+.task-block:first-child{border-top:0;padding-top:0;margin-top:0}
+.task-block h3{font-family:var(--serif);font-size:1.4rem;margin:0 0 7px}
+.task-instruction{font-family:var(--serif);line-height:1.5;color:#3b4b56;background:#f7f9fa;border-radius:11px;padding:10px 12px;margin-bottom:8px}
+.matching-key{display:grid;gap:5px;background:var(--gold-soft);border-radius:11px;padding:10px 12px;margin:9px 0}
+.matching-key div{font-size:.89rem}
+.question{border-top:1px solid var(--line);padding:16px 0}
+.question:first-of-type{border-top:0}
+.question-title{font-family:var(--serif);font-size:1.06rem;line-height:1.48;font-weight:750;margin-bottom:10px}
+.options{display:grid;gap:7px}
+.option{display:flex;align-items:flex-start;gap:9px;border:1px solid var(--line);border-radius:12px;padding:10px 11px;cursor:pointer;background:#fff}
+.option input{margin-top:2px;accent-color:var(--blue)}
+.text-input,.matching-select{width:100%;border:1px solid var(--line);border-radius:12px;padding:11px 12px;font-family:var(--sans);background:#fff}
+.feedback{display:none;margin-top:10px;border-radius:12px;padding:11px 12px;font-size:.9rem;line-height:1.48}
+.feedback.show{display:block}
+.feedback.correct{background:var(--green-soft);border:1px solid #b9dfcf;color:#174f3a}
+.feedback.wrong{background:var(--red-soft);border:1px solid #edc5c2;color:#762724}
+.feedback strong{display:block;margin-bottom:4px}
+.script-keywords{display:block;margin-top:6px;font-family:var(--serif);font-weight:750}
+.check-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:20px;padding-top:16px;border-top:2px solid var(--line)}
+.check-btn{border:0;border-radius:12px;padding:13px 16px;background:var(--navy);color:#fff;font-weight:950;cursor:pointer}
+.score{font-weight:900;color:var(--blue)}
+.footer{text-align:center;color:var(--muted);font-size:.8rem;margin-top:38px}
+@media(max-width:1050px){
+ .segment-grid{grid-template-columns:1fr}
+ .video-column{grid-column:1;grid-row:1;position:static}
+ .questions-card{grid-column:1;grid-row:2}
+ .video-card{max-width:900px;margin:auto}
+}
+@media(max-width:600px){
+ .hero h1{font-size:2.75rem}
+ .collocation-grid{grid-template-columns:1fr}
+ .segment-heading{gap:11px}
+ .segment-number{width:38px;height:38px;flex-basis:38px}
+ .questions-card,.collocation-panel{padding:15px}
+ .video-card{padding:8px;border-radius:16px}
+}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+</style>
+</head>
+<body>
+<header class="hero"><div class="hero-inner">
+ <div class="eyebrow">INTERACTIVE LISTENING PRACTICE · FIRST 20 MINUTES</div>
+ <h1>The Future of AI: Elon Musk Interview</h1>
+ <p>Three listening sections with note completion, flow-chart completion, matching, multiple choice and sentence completion.</p>
+ <div class="hero-meta"><span>3 sections</span><span>30 marks</span><span>Questions follow audio order</span><span>Script-keyword feedback</span></div>
+</div></header>
+
+<main class="wrap">
+<nav class="toolbar"><a href="#segment1">Part 1 · 00:00–06:29</a><a href="#segment2">Part 2 · 06:28–12:08</a><a href="#segment3">Part 3 · 12:08–19:54</a></nav>
+
+<section class="intro-card">
+<h2>Instructions</h2>
+<p>Study the questions before pressing <strong>Listen</strong>. Answer while listening, then check the whole section.</p>
+<p>The video continues for a few seconds beyond the displayed end time so that the final words are not cut off.</p>
+</section>
+
+
+<section class="segment" id="segment1">
+ <div class="segment-heading"><div class="segment-number">1</div><div><h2>AI abundance, physical intelligence and the future of money</h2><p>00:00–06:29 · 10 marks</p></div></div>
+ <div class="collocation-panel"><h3>Language support before listening</h3><p>Review the expressions for comprehension support. They do not reveal the question sequence.</p><div class="collocation-grid">
+ <div class="collocation"><strong>the sum of human intelligence</strong><span>совокупный интеллект человечества</span></div><div class="collocation"><strong>an age of amazing abundance</strong><span>эпоха удивительного изобилия</span></div><div class="collocation"><strong>derail this outcome</strong><span>сорвать этот сценарий</span></div><div class="collocation"><strong>confined to the digital realm</strong><span>ограниченный цифровой сферой</span></div><div class="collocation"><strong>humanoid robotics</strong><span>человекоподобная робототехника</span></div><div class="collocation"><strong>shape atoms</strong><span>воздействовать на физический мир</span></div><div class="collocation"><strong>the production of goods</strong><span>производство товаров</span></div><div class="collocation"><strong>the provision of services</strong><span>предоставление услуг</span></div><div class="collocation"><strong>a quasi-infinite economy</strong><span>практически безграничная экономика</span></div><div class="collocation"><strong>an exercise in vanity</strong><span>проявление тщеславия</span></div><div class="collocation"><strong>good values</strong><span>правильные ценности</span></div><div class="collocation"><strong>truth-seeking and curious</strong><span>ориентированный на поиск истины и любознательный</span></div>
+ </div></div>
+ <div class="instruction">You have some time to study the questions and then answer while listening.</div>
+
+ <div class="segment-grid">
+  <div class="questions-card" data-segment="1">
+   
+   <div class="task-block">
+    <h3>Questions 1–5</h3>
+    <div class="task-instruction">Complete the notes below. Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.</div>
+    
+    
+    <div class="question" data-number="1">
+     <div class="question-title"><strong>1.</strong> AI may become more capable than humanity’s combined intelligence in roughly ______.</div>
+     
+      <input class="text-input answer-control" data-type="text" data-number="1" type="text" autocomplete="off" spellcheck="false">
+     
+     <div class="feedback" id="feedback-s1-1"></div>
+    </div>
+    
+    <div class="question" data-number="2">
+     <div class="question-title"><strong>2.</strong> Musk’s most likely social scenario is widespread ______, in which people can obtain almost anything.</div>
+     
+      <input class="text-input answer-control" data-type="text" data-number="2" type="text" autocomplete="off" spellcheck="false">
+     
+     <div class="feedback" id="feedback-s1-2"></div>
+    </div>
+    
+    <div class="question" data-number="3">
+     <div class="question-title"><strong>3.</strong> For now, AI remains mainly restricted to the ______.</div>
+     
+      <input class="text-input answer-control" data-type="text" data-number="3" type="text" autocomplete="off" spellcheck="false">
+     
+     <div class="feedback" id="feedback-s1-3"></div>
+    </div>
+    
+    <div class="question" data-number="4">
+     <div class="question-title"><strong>4.</strong> To give AI physical agency, very large numbers of ______ would be required.</div>
+     
+      <input class="text-input answer-control" data-type="text" data-number="4" type="text" autocomplete="off" spellcheck="false">
+     
+     <div class="feedback" id="feedback-s1-4"></div>
+    </div>
+    
+    <div class="question" data-number="5">
+     <div class="question-title"><strong>5.</strong> Combining advanced digital intelligence with robots could create an almost unlimited ______.</div>
+     
+      <input class="text-input answer-control" data-type="text" data-number="5" type="text" autocomplete="off" spellcheck="false">
+     
+     <div class="feedback" id="feedback-s1-5"></div>
+    </div>
+    
+   </div>
+   
+   <div class="task-block">
+    <h3>Questions 6–8</h3>
+    <div class="task-instruction">Choose the correct letter, A, B or C.</div>
+    
+    
+    <div class="question" data-number="6">
+     <div class="question-title"><strong>6.</strong> Why does Musk think money may become unnecessary?</div>
+     
+      <div class="options">
+      
+       <label class="option"><input class="answer-control" data-type="single" data-number="6" type="radio" name="s1q6" value="0"><span><strong>A.</strong> Companies will stop selling shares.</span></label>
+      
+       <label class="option"><input class="answer-control" data-type="single" data-number="6" type="radio" name="s1q6" value="1"><span><strong>B.</strong> Production may exceed anything people could consume.</span></label>
+      
+       <label class="option"><input class="answer-control" data-type="single" data-number="6" type="radio" name="s1q6" value="2"><span><strong>C.</strong> Governments will replace money with digital credits.</span></label>
+      
+      </div>
+     
+     <div class="feedback" id="feedback-s1-6"></div>
+    </div>
+    
+    <div class="question" data-number="7">
+     <div class="question-title"><strong>7.</strong> Why does Musk call the idea of controlling superintelligent AI an exercise in vanity?</div>
+     
+      <div class="options">
+      
+       <label class="option"><input class="answer-control" data-type="single" data-number="7" type="radio" name="s1q7" value="0"><span><strong>A.</strong> It would be far more intelligent than he is.</span></label>
+      
+       <label class="option"><input class="answer-control" data-type="single" data-number="7" type="radio" name="s1q7" value="1"><span><strong>B.</strong> He would not legally own the robots.</span></label>
+      
+       <label class="option"><input class="answer-control" data-type="single" data-number="7" type="radio" name="s1q7" value="2"><span><strong>C.</strong> The AI would refuse to make commercial products.</span></label>
+      
+      </div>
+     
+     <div class="feedback" id="feedback-s1-7"></div>
+    </div>
+    
+    <div class="question" data-number="8">
+     <div class="question-title"><strong>8.</strong> What broad aim does Musk set for AI values?</div>
+     
+      <div class="options">
+      
+       <label class="option"><input class="answer-control" data-type="single" data-number="8" type="radio" name="s1q8" value="0"><span><strong>A.</strong> Maximise company profits.</span></label>
+      
+       <label class="option"><input class="answer-control" data-type="single" data-number="8" type="radio" name="s1q8" value="1"><span><strong>B.</strong> Care about humanity and support human flourishing.</span></label>
+      
+       <label class="option"><input class="answer-control" data-type="single" data-number="8" type="radio" name="s1q8" value="2"><span><strong>C.</strong> Obey every instruction without questioning it.</span></label>
+      
+      </div>
+     
+     <div class="feedback" id="feedback-s1-8"></div>
+    </div>
+    
+   </div>
+   
+   <div class="task-block">
+    <h3>Questions 9–10</h3>
+    <div class="task-instruction">Choose TWO letters, A–E.</div>
+    
+    
+    <div class="question" data-number="9–10">
+     <div class="question-title"><strong>9–10.</strong> Which TWO characteristics does Musk identify as especially important for AI safety?</div>
+     
+      <div class="options">
+      
+       <label class="option"><input class="answer-control" data-type="multi" data-number="9–10" type="checkbox" name="s1q9–10" value="0"><span><strong>A.</strong> truth-seeking</span></label>
+      
+       <label class="option"><input class="answer-control" data-type="multi" data-number="9–10" type="checkbox" name="s1q9–10" value="1"><span><strong>B.</strong> curiosity</span></label>
+      
+       <label class="option"><input class="answer-control" data-type="multi" data-number="9–10" type="checkbox" name="s1q9–10" value="2"><span><strong>C.</strong> obedience</span></label>
+      
+       <label class="option"><input class="answer-control" data-type="multi" data-number="9–10" type="checkbox" name="s1q9–10" value="3"><span><strong>D.</strong> commercial efficiency</span></label>
+      
+       <label class="option"><input class="answer-control" data-type="multi" data-number="9–10" type="checkbox" name="s1q9–10" value="4"><span><strong>E.</strong> emotional similarity to humans</span></label>
+      
+      </div>
+     
+     <div class="feedback" id="feedback-s1-9-10"></div>
+    </div>
+    
+   </div>
+   
+   <div class="check-row"><button class="check-btn" type="button" data-check="1">Check Part 1</button><div class="score" id="score1"></div></div>
+  </div>
+
+  <div class="video-column">
+   <div class="video-card">
+    <div class="video-frame"><div class="youtube-player" id="player1"></div></div>
+    <button class="listen-btn" id="listen1" type="button" data-player="player1" data-start="0" data-end="396" disabled>▶ Listen · 00:00–06:29</button>
+    <div class="video-note">The assessed passage ends at 06:29. Playback then continues briefly as an ending buffer and pauses automatically.</div>
+   </div>
+  </div>
+ </div>
+</section>
+
+<section class="segment" id="segment2">
+ <div class="segment-heading"><div class="segment-number">2</div><div><h2>Loss of control, changing attitudes to risk and unintended acceleration</h2><p>06:28–12:08 · 10 marks</p></div></div>
+ <div class="collocation-panel"><h3>Language support before listening</h3><p>Review the expressions for comprehension support. They do not reveal the question sequence.</p><div class="collocation-grid">
+ <div class="collocation"><strong>no longer be in control</strong><span>больше не контролировать ситуацию</span></div><div class="collocation"><strong>an evolved form of chimpanzee</strong><span>эволюционно развитая форма шимпанзе</span></div><div class="collocation"><strong>rapid recursive self-improvement</strong><span>быстрое рекурсивное самосовершенствование</span></div><div class="collocation"><strong>pet Labradors at best</strong><span>в лучшем случае домашние лабрадоры</span></div><div class="collocation"><strong>wipe out humanity</strong><span>уничтожить человечество</span></div><div class="collocation"><strong>look on the bright side</strong><span>смотреть на положительную сторону</span></div><div class="collocation"><strong>incredible momentum</strong><span>невероятный импульс развития</span></div><div class="collocation"><strong>press the stop button</strong><span>нажать кнопку остановки</span></div><div class="collocation"><strong>enjoy the ride</strong><span>наслаждаться происходящим</span></div><div class="collocation"><strong>minimise the probability</strong><span>свести вероятность к минимуму</span></div><div class="collocation"><strong>a counterweight to Google</strong><span>противовес Google</span></div><div class="collocation"><strong>a monopoly on AI</strong><span>монополия в области ИИ</span></div><div class="collocation"><strong>knock-on effects</strong><span>косвенные последующие последствия</span></div><div class="collocation"><strong>all roads lead to acceleration</strong><span>все пути ведут к ускорению</span></div>
+ </div></div>
+ <div class="instruction">You have some time to study the questions and then answer while listening.</div>
+
+ <div class="segment-grid">
+  <div class="questions-card" data-segment="2">
+   
+   <div class="task-block">
+    <h3>Questions 11–14</h3>
+    <div class="task-instruction">Match each statement with the source of the view. Choose the correct letter, A–D.</div>
+    
+    <div class="matching-key"><div><strong>A</strong> — an earlier podcast</div><div><strong>B</strong> — the 2023 open letter</div><div><strong>C</strong> — a later podcast mentioned by the interviewer</div><div><strong>D</strong> — the current interview</div></div>
+    
+    
+    <div class="question" data-number="11">
+     <div class="question-title"><strong>11.</strong> Rapid recursive self-improvement was described as the most frightening development.</div>
+     
+      <select class="matching-select answer-control" data-type="matching" data-number="11">
+       <option value="">Choose a letter</option>
+       <option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option>
+      </select>
+     
+     <div class="feedback" id="feedback-s2-11"></div>
+    </div>
+    
+    <div class="question" data-number="12">
+     <div class="question-title"><strong>12.</strong> Musk added his name to a request for AI development to slow down.</div>
+     
+      <select class="matching-select answer-control" data-type="matching" data-number="12">
+       <option value="">Choose a letter</option>
+       <option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option>
+      </select>
+     
+     <div class="feedback" id="feedback-s2-12"></div>
+    </div>
+    
+    <div class="question" data-number="13">
+     <div class="question-title"><strong>13.</strong> A 10–20% probability was attached to robots destroying humanity.</div>
+     
+      <select class="matching-select answer-control" data-type="matching" data-number="13">
+       <option value="">Choose a letter</option>
+       <option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option>
+      </select>
+     
+     <div class="feedback" id="feedback-s2-13"></div>
+    </div>
+    
+    <div class="question" data-number="14">
+     <div class="question-title"><strong>14.</strong> The preferred response is now to focus on the positive side.</div>
+     
+      <select class="matching-select answer-control" data-type="matching" data-number="14">
+       <option value="">Choose a letter</option>
+       <option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option>
+      </select>
+     
+     <div class="feedback" id="feedback-s2-14"></div>
+    </div>
+    
+   </div>
+   
+   <div class="task-block">
+    <h3>Questions 15–17</h3>
+    <div class="task-instruction">Choose the correct letter, A, B or C.</div>
+    
+    
+    <div class="question" data-number="15">
+     <div class="question-title"><strong>15.</strong> What mainly explains Musk’s more relaxed tone in the present interview?</div>
+     
+      <div class="options">
+      
+       <label class="option"><input class="answer-control" data-type="single" data-number="15" type="radio" name="s2q15" value="0"><span><strong>A.</strong> He now believes AI poses no risk.</span></label>
+      
+       <label class="option"><input class="answer-control" data-type="single" data-number="15" type="radio" name="s2q15" value="1"><span><strong>B.</strong> He sees development as unstoppable and expects a mainly positive result.</span></label>
+      
+       <label class="option"><input class="answer-control" data-type="single" data-number="15" type="radio" name="s2q15" value="2"><span><strong>C.</strong> He has transferred responsibility to governments.</span></label>
+      
+      </div>
+     
+     <div class="feedback" id="feedback-s2-15"></div>
+    </div>
+    
+    <div class="question" data-number="16">
+     <div class="question-title"><strong>16.</strong> What point is Musk making with the example of the universe’s eventual heat death?</div>
+     
+      <div class="options">
+      
+       <label class="option"><input class="answer-control" data-type="single" data-number="16" type="radio" name="s2q16" value="0"><span><strong>A.</strong> The journey can matter even if the final destination is undesirable.</span></label>
+      
+       <label class="option"><input class="answer-control" data-type="single" data-number="16" type="radio" name="s2q16" value="1"><span><strong>B.</strong> AI will be able to prevent the end of the universe.</span></label>
+      
+       <label class="option"><input class="answer-control" data-type="single" data-number="16" type="radio" name="s2q16" value="2"><span><strong>C.</strong> Human extinction is certain within ten years.</span></label>
+      
+      </div>
+     
+     <div class="feedback" id="feedback-s2-16"></div>
+    </div>
+    
+    <div class="question" data-number="17">
+     <div class="question-title"><strong>17.</strong> What practical objective does Musk still consider possible?</div>
+     
+      <div class="options">
+      
+       <label class="option"><input class="answer-control" data-type="single" data-number="17" type="radio" name="s2q17" value="0"><span><strong>A.</strong> Stopping all intelligent robots</span></label>
+      
+       <label class="option"><input class="answer-control" data-type="single" data-number="17" type="radio" name="s2q17" value="1"><span><strong>B.</strong> Reducing the probability of a harmful outcome</span></label>
+      
+       <label class="option"><input class="answer-control" data-type="single" data-number="17" type="radio" name="s2q17" value="2"><span><strong>C.</strong> Guaranteeing that AI remains under human control</span></label>
+      
+      </div>
+     
+     <div class="feedback" id="feedback-s2-17"></div>
+    </div>
+    
+   </div>
+   
+   <div class="task-block">
+    <h3>Questions 18–20</h3>
+    <div class="task-instruction">Complete the notes below. Write ONE WORD ONLY for each answer.</div>
+    
+    
+    <div class="question" data-number="18">
+     <div class="question-title"><strong>18.</strong> OpenAI was originally created as a counterweight to ______.</div>
+     
+      <input class="text-input answer-control" data-type="text" data-number="18" type="text" autocomplete="off" spellcheck="false">
+     
+     <div class="feedback" id="feedback-s2-18"></div>
+    </div>
+    
+    <div class="question" data-number="19">
+     <div class="question-title"><strong>19.</strong> At the time, that company had an approximate ______ in AI.</div>
+     
+      <input class="text-input answer-control" data-type="text" data-number="19" type="text" autocomplete="off" spellcheck="false">
+     
+     <div class="feedback" id="feedback-s2-19"></div>
+    </div>
+    
+    <div class="question" data-number="20">
+     <div class="question-title"><strong>20.</strong> The unintended knock-on effect of Musk’s actions was further AI ______.</div>
+     
+      <input class="text-input answer-control" data-type="text" data-number="20" type="text" autocomplete="off" spellcheck="false">
+     
+     <div class="feedback" id="feedback-s2-20"></div>
+    </div>
+    
+   </div>
+   
+   <div class="check-row"><button class="check-btn" type="button" data-check="2">Check Part 2</button><div class="score" id="score2"></div></div>
+  </div>
+
+  <div class="video-column">
+   <div class="video-card">
+    <div class="video-frame"><div class="youtube-player" id="player2"></div></div>
+    <button class="listen-btn" id="listen2" type="button" data-player="player2" data-start="388" data-end="736" disabled>▶ Listen · 06:28–12:08</button>
+    <div class="video-note">The assessed passage ends at 12:08. Playback then continues briefly as an ending buffer and pauses automatically.</div>
+   </div>
+  </div>
+ </div>
+</section>
+
+<section class="segment" id="segment3">
+ <div class="segment-heading"><div class="segment-number">3</div><div><h2>Safety cooperation, Chinese competition and the limits on AI growth</h2><p>12:08–19:54 · 10 marks</p></div></div>
+ <div class="collocation-panel"><h3>Language support before listening</h3><p>Review the expressions for comprehension support. They do not reveal the question sequence.</p><div class="collocation-grid">
+ <div class="collocation"><strong>leading AI companies</strong><span>ведущие компании в области ИИ</span></div><div class="collocation"><strong>safety and security issues</strong><span>вопросы безопасности и защищённости</span></div><div class="collocation"><strong>a new frontier model</strong><span>новая передовая модель</span></div><div class="collocation"><strong>test for harmful effects</strong><span>проверить на вредные последствия</span></div><div class="collocation"><strong>recommend pausing</strong><span>рекомендовать временную остановку</span></div><div class="collocation"><strong>keep each other honest</strong><span>взаимно контролировать добросовестность</span></div><div class="collocation"><strong>deep technical understanding</strong><span>глубокое техническое понимание</span></div><div class="collocation"><strong>private testing</strong><span>закрытое тестирование</span></div><div class="collocation"><strong>test it via an API</strong><span>тестировать через API</span></div><div class="collocation"><strong>a relatively small amount of compute</strong><span>относительно небольшой объём вычислительных ресурсов</span></div><div class="collocation"><strong>the limiting factor</strong><span>ограничивающий фактор</span></div><div class="collocation"><strong>electricity production</strong><span>производство электроэнергии</span></div><div class="collocation"><strong>export controls</strong><span>экспортные ограничения</span></div><div class="collocation"><strong>power and cooling</strong><span>энергоснабжение и охлаждение</span></div>
+ </div></div>
+ <div class="instruction">You have some time to study the questions and then answer while listening.</div>
+
+ <div class="segment-grid">
+  <div class="questions-card" data-segment="3">
+   
+   <div class="task-block">
+    <h3>Questions 21–25</h3>
+    <div class="task-instruction">Complete the flow chart below. Write NO MORE THAN TWO WORDS for each answer.</div>
+    
+    
+    <div class="question" data-number="21">
+     <div class="question-title"><strong>21.</strong> Leading AI firms hold a meeting or call every ______.</div>
+     
+      <input class="text-input answer-control" data-type="text" data-number="21" type="text" autocomplete="off" spellcheck="false">
+     
+     <div class="feedback" id="feedback-s3-21"></div>
+    </div>
+    
+    <div class="question" data-number="22">
+     <div class="question-title"><strong>22.</strong> The procedure is used before a new ______ model is released.</div>
+     
+      <input class="text-input answer-control" data-type="text" data-number="22" type="text" autocomplete="off" spellcheck="false">
+     
+     <div class="feedback" id="feedback-s3-22"></div>
+    </div>
+    
+    <div class="question" data-number="23">
+     <div class="question-title"><strong>23.</strong> Competitors examine the model for potentially ______ effects.</div>
+     
+      <input class="text-input answer-control" data-type="text" data-number="23" type="text" autocomplete="off" spellcheck="false">
+     
+     <div class="feedback" id="feedback-s3-23"></div>
+    </div>
+    
+    <div class="question" data-number="24">
+     <div class="question-title"><strong>24.</strong> If serious problems appear, they may advise a temporary ______.</div>
+     
+      <input class="text-input answer-control" data-type="text" data-number="24" type="text" autocomplete="off" spellcheck="false">
+     
+     <div class="feedback" id="feedback-s3-24"></div>
+    </div>
+    
+    <div class="question" data-number="25">
+     <div class="question-title"><strong>25.</strong> Controlled private access could be provided through an ______.</div>
+     
+      <input class="text-input answer-control" data-type="text" data-number="25" type="text" autocomplete="off" spellcheck="false">
+     
+     <div class="feedback" id="feedback-s3-25"></div>
+    </div>
+    
+   </div>
+   
+   <div class="task-block">
+    <h3>Questions 26–29</h3>
+    <div class="task-instruction">Choose the correct letter, A, B or C.</div>
+    
+    
+    <div class="question" data-number="26">
+     <div class="question-title"><strong>26.</strong> Why does Musk think competitors may be better reviewers than government officials?</div>
+     
+      <div class="options">
+      
+       <label class="option"><input class="answer-control" data-type="single" data-number="26" type="radio" name="s3q26" value="0"><span><strong>A.</strong> They have relevant technical expertise and an incentive to expose problems.</span></label>
+      
+       <label class="option"><input class="answer-control" data-type="single" data-number="26" type="radio" name="s3q26" value="1"><span><strong>B.</strong> They are legally required to share all their models.</span></label>
+      
+       <label class="option"><input class="answer-control" data-type="single" data-number="26" type="radio" name="s3q26" value="2"><span><strong>C.</strong> They agree with one another about acceptable risk.</span></label>
+      
+      </div>
+     
+     <div class="feedback" id="feedback-s3-26"></div>
+    </div>
+    
+    <div class="question" data-number="27">
+     <div class="question-title"><strong>27.</strong> Why does Musk think Chinese AI companies may eventually become the leaders?</div>
+     
+      <div class="options">
+      
+       <label class="option"><input class="answer-control" data-type="single" data-number="27" type="radio" name="s3q27" value="0"><span><strong>A.</strong> They already control every leading model.</span></label>
+      
+       <label class="option"><input class="answer-control" data-type="single" data-number="27" type="radio" name="s3q27" value="1"><span><strong>B.</strong> They perform strongly despite limited compute and may later gain much more.</span></label>
+      
+       <label class="option"><input class="answer-control" data-type="single" data-number="27" type="radio" name="s3q27" value="2"><span><strong>C.</strong> They are not affected by electricity constraints.</span></label>
+      
+      </div>
+     
+     <div class="feedback" id="feedback-s3-27"></div>
+    </div>
+    
+    <div class="question" data-number="28">
+     <div class="question-title"><strong>28.</strong> Which evidence does Musk use to emphasise China’s potential advantage?</div>
+     
+      <div class="options">
+      
+       <label class="option"><input class="answer-control" data-type="single" data-number="28" type="radio" name="s3q28" value="0"><span><strong>A.</strong> Its electricity output exceeds that of the US, Europe and India combined.</span></label>
+      
+       <label class="option"><input class="answer-control" data-type="single" data-number="28" type="radio" name="s3q28" value="1"><span><strong>B.</strong> It manufactures all AI chips used in the United States.</span></label>
+      
+       <label class="option"><input class="answer-control" data-type="single" data-number="28" type="radio" name="s3q28" value="2"><span><strong>C.</strong> Its water consumption is lower than India’s.</span></label>
+      
+      </div>
+     
+     <div class="feedback" id="feedback-s3-28"></div>
+    </div>
+    
+    <div class="question" data-number="29">
+     <div class="question-title"><strong>29.</strong> Why does Musk doubt that a US ban on Chinese models would be effective?</div>
+     
+      <div class="options">
+      
+       <label class="option"><input class="answer-control" data-type="single" data-number="29" type="radio" name="s3q29" value="0"><span><strong>A.</strong> US companies have no interest in the models.</span></label>
+      
+       <label class="option"><input class="answer-control" data-type="single" data-number="29" type="radio" name="s3q29" value="1"><span><strong>B.</strong> The US cannot prevent China and the rest of the world from using them.</span></label>
+      
+       <label class="option"><input class="answer-control" data-type="single" data-number="29" type="radio" name="s3q29" value="2"><span><strong>C.</strong> Export controls apply only to electricity equipment.</span></label>
+      
+      </div>
+     
+     <div class="feedback" id="feedback-s3-29"></div>
+    </div>
+    
+   </div>
+   
+   <div class="task-block">
+    <h3>Question 30</h3>
+    <div class="task-instruction">Complete the sentence below. Write ONE WORD ONLY.</div>
+    
+    
+    <div class="question" data-number="30">
+     <div class="question-title"><strong>30.</strong> At present, the slightly tighter constraint is power and ______ rather than the supply of AI chips.</div>
+     
+      <input class="text-input answer-control" data-type="text" data-number="30" type="text" autocomplete="off" spellcheck="false">
+     
+     <div class="feedback" id="feedback-s3-30"></div>
+    </div>
+    
+   </div>
+   
+   <div class="check-row"><button class="check-btn" type="button" data-check="3">Check Part 3</button><div class="score" id="score3"></div></div>
+  </div>
+
+  <div class="video-column">
+   <div class="video-card">
+    <div class="video-frame"><div class="youtube-player" id="player3"></div></div>
+    <button class="listen-btn" id="listen3" type="button" data-player="player3" data-start="728" data-end="1204" disabled>▶ Listen · 12:08–19:54</button>
+    <div class="video-note">The assessed passage ends at 19:54. Playback then continues briefly as an ending buffer and pauses automatically.</div>
+   </div>
+  </div>
+ </div>
+</section>
+
+<div class="footer">Your answers and scores are saved on this device.</div>
+</main>
+
+<script>
+const VIDEO_ID="XuoqKYxDHVc";
+const SEGMENTS=[{"number":1,"title":"AI abundance, physical intelligence and the future of money","display_time":"00:00–06:29","start":0,"assessed_end":389,"playback_end":396,"collocations":[["the sum of human intelligence","совокупный интеллект человечества"],["an age of amazing abundance","эпоха удивительного изобилия"],["derail this outcome","сорвать этот сценарий"],["confined to the digital realm","ограниченный цифровой сферой"],["humanoid robotics","человекоподобная робототехника"],["shape atoms","воздействовать на физический мир"],["the production of goods","производство товаров"],["the provision of services","предоставление услуг"],["a quasi-infinite economy","практически безграничная экономика"],["an exercise in vanity","проявление тщеславия"],["good values","правильные ценности"],["truth-seeking and curious","ориентированный на поиск истины и любознательный"]],"tasks":[{"heading":"Questions 1–5","instruction":"Complete the notes below. Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.","questions":[{"number":"1","type":"text","prompt":"AI may become more capable than humanity’s combined intelligence in roughly ______.","accepted":["five years","5 years","five","5"],"correct":"five years","keywords":"“AI may exceed the sum of human intelligence … in around five years”","explanation":"Musk gives an approximate five-year estimate for AI to exceed humanity’s combined intelligence."},{"number":"2","type":"text","prompt":"Musk’s most likely social scenario is widespread ______, in which people can obtain almost anything.","accepted":["abundance"],"correct":"abundance","keywords":"“the most likely outcome is an age of amazing abundance”","explanation":"He describes the most likely future as one of abundance, where people can obtain almost anything they need."},{"number":"3","type":"text","prompt":"For now, AI remains mainly restricted to the ______.","accepted":["digital realm"],"correct":"digital realm","keywords":"“it’s still somewhat confined to the digital realm”","explanation":"He says present-day AI is still mainly confined to the digital realm."},{"number":"4","type":"text","prompt":"To give AI physical agency, very large numbers of ______ would be required.","accepted":["humanoid robots","robots","bots","humanoid robotics"],"correct":"humanoid robots","keywords":"“effectors in the form of humanoid robotics … you need lots of bots”","explanation":"Humanoid robots would give AI the ability to act directly in the physical world."},{"number":"5","type":"text","prompt":"Combining advanced digital intelligence with robots could create an almost unlimited ______.","accepted":["economy"],"correct":"economy","keywords":"“you have a sort of a quasi-infinite economy”","explanation":"A huge population of intelligent robots could produce goods and services on an almost unlimited scale."}]},{"heading":"Questions 6–8","instruction":"Choose the correct letter, A, B or C.","questions":[{"number":"6","type":"single","prompt":"Why does Musk think money may become unnecessary?","options":["Companies will stop selling shares.","Production may exceed anything people could consume.","Governments will replace money with digital credits."],"answer":[1],"correct":"B","keywords":"“robots and AI are providing more goods and services than any human could possibly consume”","explanation":"Money may lose its practical importance if robots and AI produce more than people could possibly consume."},{"number":"7","type":"single","prompt":"Why does Musk call the idea of controlling superintelligent AI an exercise in vanity?","options":["It would be far more intelligent than he is.","He would not legally own the robots.","The AI would refuse to make commercial products."],"answer":[0],"correct":"A","keywords":"“controlling super genius AI that is vastly smarter than me”","explanation":"Musk considers control unrealistic because a superintelligent AI would be vastly smarter than the person claiming to control it."},{"number":"8","type":"single","prompt":"What broad aim does Musk set for AI values?","options":["Maximise company profits.","Care about humanity and support human flourishing.","Obey every instruction without questioning it."],"answer":[1],"correct":"B","keywords":"“it cares about humanity … wants us to be happy and prosper”","explanation":"He says AI should care about humanity and support human happiness and prosperity."}]},{"heading":"Questions 9–10","instruction":"Choose TWO letters, A–E.","questions":[{"number":"9–10","type":"multi","points":2,"prompt":"Which TWO characteristics does Musk identify as especially important for AI safety?","options":["truth-seeking","curiosity","obedience","commercial efficiency","emotional similarity to humans"],"answer":[0,1],"correct":"A and B","keywords":"“the most important thing for AI safety is to be maximally truth-seeking and curious”","explanation":"Musk names truth-seeking and curiosity as the two central qualities."}]}]},{"number":2,"title":"Loss of control, changing attitudes to risk and unintended acceleration","display_time":"06:28–12:08","start":388,"assessed_end":728,"playback_end":736,"collocations":[["no longer be in control","больше не контролировать ситуацию"],["an evolved form of chimpanzee","эволюционно развитая форма шимпанзе"],["rapid recursive self-improvement","быстрое рекурсивное самосовершенствование"],["pet Labradors at best","в лучшем случае домашние лабрадоры"],["wipe out humanity","уничтожить человечество"],["look on the bright side","смотреть на положительную сторону"],["incredible momentum","невероятный импульс развития"],["press the stop button","нажать кнопку остановки"],["enjoy the ride","наслаждаться происходящим"],["minimise the probability","свести вероятность к минимуму"],["a counterweight to Google","противовес Google"],["a monopoly on AI","монополия в области ИИ"],["knock-on effects","косвенные последующие последствия"],["all roads lead to acceleration","все пути ведут к ускорению"]],"tasks":[{"heading":"Questions 11–14","instruction":"Match each statement with the source of the view. Choose the correct letter, A–D.","matching_options":[["A","an earlier podcast"],["B","the 2023 open letter"],["C","a later podcast mentioned by the interviewer"],["D","the current interview"]],"questions":[{"number":"11","type":"matching","prompt":"Rapid recursive self-improvement was described as the most frightening development.","options":["A","B","C","D"],"answer":["A"],"correct":"A","keywords":"“10 years ago … the thing that terrified you most was rapid recursive self-improvement”","explanation":"The remark about recursive self-improvement comes from an interview approximately ten years earlier."},{"number":"12","type":"matching","prompt":"Musk added his name to a request for AI development to slow down.","options":["A","B","C","D"],"answer":["B"],"correct":"B","keywords":"“in 2023 you asked for a slowdown … I signed on … one of many signatures”","explanation":"Musk confirms that he signed the 2023 letter calling for slower AI development."},{"number":"13","type":"matching","prompt":"A 10–20% probability was attached to robots destroying humanity.","options":["A","B","C","D"],"answer":["C"],"correct":"C","keywords":"“last year … there was a 10 to 20% chance of killer robots wiping out humanity”","explanation":"The interviewer attributes the 10–20% estimate to a later podcast."},{"number":"14","type":"matching","prompt":"The preferred response is now to focus on the positive side.","options":["A","B","C","D"],"answer":["D"],"correct":"D","keywords":"“my philosophical conclusion is to look on the bright side”","explanation":"In the present interview, Musk says his conclusion is to look on the bright side."}]},{"heading":"Questions 15–17","instruction":"Choose the correct letter, A, B or C.","questions":[{"number":"15","type":"single","prompt":"What mainly explains Musk’s more relaxed tone in the present interview?","options":["He now believes AI poses no risk.","He sees development as unstoppable and expects a mainly positive result.","He has transferred responsibility to governments."],"answer":[1],"correct":"B","keywords":"“I can’t see any way to really stop this incredible momentum” + “the most likely outcome is incredible abundance”","explanation":"His calmer tone comes from believing that development cannot realistically be stopped and that abundance is the most likely result."},{"number":"16","type":"single","prompt":"What point is Musk making with the example of the universe’s eventual heat death?","options":["The journey can matter even if the final destination is undesirable.","AI will be able to prevent the end of the universe.","Human extinction is certain within ten years."],"answer":[0],"correct":"A","keywords":"“it really is all about the journey because the destination is terrible”","explanation":"The example shows that the value of the journey can remain important even when the final destination is undesirable."},{"number":"17","type":"single","prompt":"What practical objective does Musk still consider possible?","options":["Stopping all intelligent robots","Reducing the probability of a harmful outcome","Guaranteeing that AI remains under human control"],"answer":[1],"correct":"B","keywords":"“the only thing we can try to do is minimise the probability of the bad outcome”","explanation":"Musk thinks humanity can reduce the probability of a harmful outcome, even if it cannot remove the risk completely."}]},{"heading":"Questions 18–20","instruction":"Complete the notes below. Write ONE WORD ONLY for each answer.","questions":[{"number":"18","type":"text","prompt":"OpenAI was originally created as a counterweight to ______.","accepted":["google"],"correct":"Google","keywords":"“created OpenAI as essentially a counterweight to Google”","explanation":"Musk says OpenAI was originally created as a counterweight to Google."},{"number":"19","type":"text","prompt":"At the time, that company had an approximate ______ in AI.","accepted":["monopoly"],"correct":"monopoly","keywords":"“they had more or less a monopoly on AI”","explanation":"He says Google had more or less a monopoly on AI at that time."},{"number":"20","type":"text","prompt":"The unintended knock-on effect of Musk’s actions was further AI ______.","accepted":["acceleration"],"correct":"acceleration","keywords":"“knock-on effects that accelerated AI” + “all roads lead to acceleration of AI”","explanation":"The indirect result of his actions was further acceleration of AI development."}]}]},{"number":3,"title":"Safety cooperation, Chinese competition and the limits on AI growth","display_time":"12:08–19:54","start":728,"assessed_end":1194,"playback_end":1204,"collocations":[["leading AI companies","ведущие компании в области ИИ"],["safety and security issues","вопросы безопасности и защищённости"],["a new frontier model","новая передовая модель"],["test for harmful effects","проверить на вредные последствия"],["recommend pausing","рекомендовать временную остановку"],["keep each other honest","взаимно контролировать добросовестность"],["deep technical understanding","глубокое техническое понимание"],["private testing","закрытое тестирование"],["test it via an API","тестировать через API"],["a relatively small amount of compute","относительно небольшой объём вычислительных ресурсов"],["the limiting factor","ограничивающий фактор"],["electricity production","производство электроэнергии"],["export controls","экспортные ограничения"],["power and cooling","энергоснабжение и охлаждение"]],"tasks":[{"heading":"Questions 21–25","instruction":"Complete the flow chart below. Write NO MORE THAN TWO WORDS for each answer.","questions":[{"number":"21","type":"text","prompt":"Leading AI firms hold a meeting or call every ______.","accepted":["few weeks","a few weeks"],"correct":"few weeks","keywords":"“have some sort of call once every few weeks”","explanation":"Musk proposes regular communication between leading AI companies every few weeks."},{"number":"22","type":"text","prompt":"The procedure is used before a new ______ model is released.","accepted":["frontier","frontier model"],"correct":"frontier","keywords":"“before … a new frontier model is released”","explanation":"The procedure would take place before the release of a new frontier model."},{"number":"23","type":"text","prompt":"Competitors examine the model for potentially ______ effects.","accepted":["harmful"],"correct":"harmful","keywords":"“test that model for any harmful effects”","explanation":"Competitors would examine the model for harmful effects before release."},{"number":"24","type":"text","prompt":"If serious problems appear, they may advise a temporary ______.","accepted":["pause","pausing"],"correct":"pause","keywords":"“recommend pausing to address some of these security issues”","explanation":"If serious security problems were found, they could recommend a temporary pause."},{"number":"25","type":"text","prompt":"Controlled private access could be provided through an ______.","accepted":["api","an api"],"correct":"API","keywords":"“test it via an API”","explanation":"An API could provide controlled access for private testing without transferring the complete model."}]},{"heading":"Questions 26–29","instruction":"Choose the correct letter, A, B or C.","questions":[{"number":"26","type":"single","prompt":"Why does Musk think competitors may be better reviewers than government officials?","options":["They have relevant technical expertise and an incentive to expose problems.","They are legally required to share all their models.","They agree with one another about acceptable risk."],"answer":[0],"correct":"A","keywords":"“government … doesn’t have a deep technical understanding” + “competitors have an incentive to keep the others honest”","explanation":"Competitors have both the technical knowledge and a strong incentive to identify one another’s weaknesses."},{"number":"27","type":"single","prompt":"Why does Musk think Chinese AI companies may eventually become the leaders?","options":["They already control every leading model.","They perform strongly despite limited compute and may later gain much more.","They are not affected by electricity constraints."],"answer":[1],"correct":"B","keywords":"“doing as well as they are with a relatively small amount of compute” + “at some point they probably will have a lot of compute”","explanation":"Chinese companies already perform strongly with limited compute and may later gain access to much greater capacity."},{"number":"28","type":"single","prompt":"Which evidence does Musk use to emphasise China’s potential advantage?","options":["Its electricity output exceeds that of the US, Europe and India combined.","It manufactures all AI chips used in the United States.","Its water consumption is lower than India’s."],"answer":[0],"correct":"A","keywords":"“more electricity than the United States, Europe and India combined”","explanation":"Musk points to China’s exceptionally large electricity output as evidence of its potential advantage."},{"number":"29","type":"single","prompt":"Why does Musk doubt that a US ban on Chinese models would be effective?","options":["US companies have no interest in the models.","The US cannot prevent China and the rest of the world from using them.","Export controls apply only to electricity equipment."],"answer":[1],"correct":"B","keywords":"“they can’t stop the rest of the world from using them” + “that won’t stop China from being the leader”","explanation":"A US restriction would not prevent China or users elsewhere in the world from developing or using the models."}]},{"heading":"Question 30","instruction":"Complete the sentence below. Write ONE WORD ONLY.","questions":[{"number":"30","type":"text","prompt":"At present, the slightly tighter constraint is power and ______ rather than the supply of AI chips.","accepted":["cooling"],"correct":"cooling","keywords":"“slightly more on power and cooling than it is on AI chips”","explanation":"Musk says the present bottleneck is slightly more about power and cooling than chip supply."}]}]}];
+const players={}, stopTimers={};
+
+function normalise(v){return (v||"").toLowerCase().replace(/[’']/g,"'").replace(/[^a-z0-9%]+/g," ").trim().replace(/\s+/g," ")}
+function allQuestions(segment){return segment.tasks.flatMap(t=>t.questions)}
+function questionKey(number){return String(number).replace("–","-")}
+
+window.onYouTubeIframeAPIReady=function(){
+ document.querySelectorAll(".youtube-player").forEach(el=>{
+  players[el.id]=new YT.Player(el.id,{videoId:VIDEO_ID,playerVars:{rel:0,modestbranding:1,playsinline:1},events:{onReady:function(){
+   const b=document.querySelector(`[data-player="${el.id}"]`);if(b)b.disabled=false;
+  }}});
+ });
+};
+const api=document.createElement("script");api.src="https://www.youtube.com/iframe_api";document.head.appendChild(api);
+
+document.querySelectorAll(".listen-btn").forEach(button=>button.addEventListener("click",()=>{
+ const player=players[button.dataset.player];if(!player)return;
+ Object.values(players).forEach(p=>{if(p!==player&&typeof p.pauseVideo==="function")p.pauseVideo()});
+ Object.values(stopTimers).forEach(clearInterval);
+ player.seekTo(Number(button.dataset.start),true);player.playVideo();
+ stopTimers[button.dataset.player]=setInterval(()=>{
+  if(player.getCurrentTime()>=Number(button.dataset.end)){player.pauseVideo();clearInterval(stopTimers[button.dataset.player])}
+ },200);
+}));
+
+document.querySelectorAll("[data-check]").forEach(button=>button.addEventListener("click",()=>{
+ const num=Number(button.dataset.check), segment=SEGMENTS.find(s=>s.number===num);
+ let score=0,total=0;
+ allQuestions(segment).forEach(q=>{
+  const points=q.points||1;total+=points;
+  let correct=false,attempted=false;
+  const selector=`.answer-control[data-number="${q.number}"]`;
+  const controls=[...document.querySelectorAll(selector)];
+  if(q.type==="text"){
+   const value=normalise(controls[0].value);attempted=!!value;
+   correct=q.accepted.some(a=>normalise(a)===value);
+  }else if(q.type==="matching"){
+   const value=controls[0].value;attempted=!!value;correct=q.answer.includes(value);
+  }else if(q.type==="single"){
+   const selected=controls.find(c=>c.checked);attempted=!!selected;correct=attempted&&q.answer.includes(Number(selected.value));
+  }else if(q.type==="multi"){
+   const selected=controls.filter(c=>c.checked).map(c=>Number(c.value)).sort((a,b)=>a-b);
+   attempted=selected.length>0;
+   const answer=[...q.answer].sort((a,b)=>a-b);
+   correct=selected.length===answer.length&&selected.every((v,i)=>v===answer[i]);
+  }
+  if(correct)score+=points;
+  const fb=document.getElementById(`feedback-s${num}-${questionKey(q.number)}`);
+  fb.className=`feedback show ${correct?"correct":"wrong"}`;
+  const lead=correct?"Correct.":(attempted?`Not quite. Correct answer: ${q.correct}.`:`No answer entered. Correct answer: ${q.correct}.`);
+  fb.innerHTML=`<strong>${lead}</strong><span>${q.explanation}</span><span class="script-keywords">Script keywords: ${q.keywords}</span>`;
+ });
+ document.getElementById(`score${num}`).textContent=`Score: ${score} / ${total}`;
+ localStorage.setItem(`musk_v2_score_${num}`,String(score));
+}));
+
+document.querySelectorAll(".answer-control").forEach(control=>{
+ const segment=control.closest(".questions-card").dataset.segment;
+ const key=`musk_v2_s${segment}_q${control.dataset.number}_${control.value||"text"}`;
+ if(control.type==="radio"||control.type==="checkbox")control.checked=localStorage.getItem(key)==="1";
+ else control.value=localStorage.getItem(key)||"";
+ control.addEventListener("change",()=>{
+  if(control.type==="radio"){
+   document.querySelectorAll(`input[name="${control.name}"]`).forEach(r=>localStorage.removeItem(`musk_v2_s${segment}_q${r.dataset.number}_${r.value}`));
+   if(control.checked)localStorage.setItem(key,"1");
+  }else if(control.type==="checkbox"){
+   control.checked?localStorage.setItem(key,"1"):localStorage.removeItem(key);
+  }else localStorage.setItem(key,control.value);
+ });
+ if(control.type==="text")control.addEventListener("input",()=>localStorage.setItem(key,control.value));
+});
+</script>
+</body>
+</html>
